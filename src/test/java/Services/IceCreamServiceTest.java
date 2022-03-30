@@ -10,15 +10,14 @@ class IceCreamServiceTest {
 
     @Test
     public void createTest() {
-        int id = 1;
         String flavor = "Bunny BonBon";
         String brand = "Sera 'an Dipity";
         String size = "pint";
         int qty = 12;
         double price = 6.99;
 
-        IceCreamService bbbSer = new IceCreamService();
-        IceCream bbb = bbbSer.create(brand, flavor, size, qty, price);
+        IceCreamService service = new IceCreamService();
+        IceCream bbb = service.create(brand, flavor, size, qty, price);
 
         int actualId = bbb.getId();
         String actualFlavor = bbb.getFlavor();;
@@ -27,14 +26,14 @@ class IceCreamServiceTest {
         int actualQty = bbb.getQty();
         double actualPrice = bbb.getPrice();
 
-        Assertions.assertEquals(Integer.class.getName(), new Integer(actualId).getClass().getName());
-        Assertions.assertEquals(id, actualId);
-        Assertions.assertEquals(brand, actualBrand);
-        Assertions.assertEquals(flavor, actualFlavor);
-        Assertions.assertEquals(size, actualSize);
-        Assertions.assertEquals(qty, actualQty);
-        Assertions.assertEquals(price, actualPrice);
+        assertEquals(Integer.class.getName(), new Integer(actualId).getClass().getName());
+        assertEquals(brand, actualBrand);
+        assertEquals(flavor, actualFlavor);
+        assertEquals(size, actualSize);
+        assertEquals(qty, actualQty);
+        assertEquals(price, actualPrice);
 
+        service.delete(bbb.getId());
     }
 
     @Test
@@ -45,19 +44,47 @@ class IceCreamServiceTest {
         int qty = 12;
         double price = 6.99;
 
-        IceCreamService ssbSer = new IceCreamService();
-        IceCream ssb =  ssbSer.create(brand, flavor, size, qty, price);
+        IceCreamService service = new IceCreamService();
+        IceCream ssb =  service.create(brand, flavor, size, qty, price);
 
-        int actualId = ssb.getId();
-
-        Assertions.assertEquals(ssb, ssbSer.findIceCream(ssb.getId()));
+        Assertions.assertEquals(ssb, service.findIceCream(ssb.getId()));
+        service.delete(ssb.getId());
     }
 
     @Test
     void findAll() {
+        String flavor = "SugarSugar Blue";
+        String brand = "Sera 'an Dipity";
+        String size = "pint";
+        int qty = 12;
+        double price = 6.99;
+
+        IceCreamService service = new IceCreamService();
+        IceCream ssb =  service.create(brand, flavor, size, qty, price);
+        IceCream bubbleGum = service.create(brand, "Bubble Gum", size, 15, price);
+
+        IceCream[] expected = {ssb,  bubbleGum};
+
+        Assertions.assertArrayEquals(expected, service.findAll());
+        service.delete(ssb.getId());
+        service.delete(bubbleGum.getId());
+
     }
 
     @Test
     void delete() {
+        String flavor = "SugarSugar Blue";
+        String brand = "Sera 'an Dipity";
+        String size = "pint";
+        int qty = 12;
+        double price = 6.99;
+
+        IceCreamService service = new IceCreamService();
+        IceCream ssb =  service.create(brand, flavor, size, qty, price);
+
+        Assertions.assertTrue(service.delete(ssb.getId()));
+        Assertions.assertNull(service.findIceCream(ssb.getId()));
+
+
     }
 }

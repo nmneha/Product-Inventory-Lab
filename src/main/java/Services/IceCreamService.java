@@ -3,6 +3,7 @@ package Services;
 import Models.IceCream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class IceCreamService {
@@ -25,7 +26,6 @@ public class IceCreamService {
                 return ic;
             }
         }
-
         return null;
         // should take an int and return an object with that id, if exists
     }
@@ -33,15 +33,24 @@ public class IceCreamService {
     //read all
     public IceCream[] findAll() {
         // should return a basic array copy of the ArrayList
-        return null;
+        IceCream[] array = new IceCream[inventory.size()];
+        for (int i = 0; i < array.length; i++) {
+                array[i] = inventory.get(i);
+            }
+        return array;
     }
 
     //delete
     public boolean delete(int id) {
+        if (findIceCream(id) != null) {
+            inventory.remove(findIceCream(id));
+            return true;
+        }
         // should remove the object with this id from the ArrayList if exits and return true.
         // Otherwise return false
         return false;
     }
+
 
 
 }
