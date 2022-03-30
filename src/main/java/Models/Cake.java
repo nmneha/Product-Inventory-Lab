@@ -8,6 +8,19 @@ public class Cake {
     private int qty;
     private double price;
 
+    public Cake (){
+        this(0,"", "", "", 0, 0.00);
+    }
+
+    public Cake(int id, String brand, String flavor, String size, int qty, double price) {
+        this.id = id;
+        this.brand = brand;
+        this.flavor = flavor;
+        this.size = size;
+        this.qty = qty;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }

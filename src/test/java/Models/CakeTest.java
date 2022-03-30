@@ -8,8 +8,26 @@ class CakeTest {
     Cake testCake = new Cake();
 
     @Test
+    public void constructorTest() {
+        int id = 123;
+        String flavor = "Red Velvety";
+        String brand = "Sera an' Dipity";
+        String size = "12 inch round";
+        int qty = 15;
+        double price = 6.99;
+
+        Cake redVelvet = new Cake(id, brand, flavor, size, qty, price);
+
+        Assertions.assertEquals(id, redVelvet.getId());
+        Assertions.assertEquals(flavor, redVelvet.getFlavor());
+        Assertions.assertEquals(brand, redVelvet.getBrand());
+        Assertions.assertEquals(size, redVelvet.getSize());
+        Assertions.assertEquals(price, redVelvet.getPrice());
+    }
+
+    @Test
     public void setFlavorTest() {
-        String expected = "Berry Bad";
+        String expected = "Raspberry Chocolate";
         testCake.setFlavor(expected);
 
         Assertions.assertEquals(expected, testCake.getFlavor());
@@ -33,7 +51,7 @@ class CakeTest {
 
     @Test
     public void setSizeTest() {
-        String size = "pint";
+        String size = "12 inch round";
         testCake.setSize(size);
 
         Assertions.assertEquals(size, testCake.getSize());
