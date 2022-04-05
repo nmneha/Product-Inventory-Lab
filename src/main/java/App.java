@@ -54,7 +54,6 @@ public class App {
                 } else if (inventoryNum == 2) {
                     console.readCake();
                 }
-
             } else if (number == 3) {
 
             } else if (number == 4) {

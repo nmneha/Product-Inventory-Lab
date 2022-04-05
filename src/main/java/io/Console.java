@@ -83,12 +83,9 @@ public class Console {
     }
 
     public void createIceCream() {
-        iceCreamBrand();
-        String brand = userInput.next();
-        iceCreamFlavor();
-        String flavor = userInput.next();
-        iceCreamSize();
-        String size = userInput.next();
+        String brand = getString("Enter the brand");
+        String flavor = getString("What flavor is it?");
+        String size = getString("Enter a size.");
         int qty = getNumber("How much inventory is there?");
         System.out.println("What is the price?");
         double price = userInput.nextInt();
@@ -97,10 +94,10 @@ public class Console {
 
 
     public void createCake() {
-        cakeFlavor();
-        String flavor = userInput.next();
-        cakeSize();
-        String size = userInput.next();
+        String flavor = getString("What flavor is the cake?");
+        String size = getString("What size cake is it?" +
+                "\n[12 IN ROUND]" +
+                "\n[6 IN ROUND]");
         while (size != "12 IN ROUND" || size != "6 IN ROUND") {
             System.out.println("This is not a valid input." +
                     "Please enter a size from above.");
@@ -158,16 +155,6 @@ public class Console {
 
     }
 
-    public static void cakeFlavor() {
-        System.out.println("What flavor is the cake?");
-    }
-
-    public static void  cakeSize() {
-        System.out.println("What size cake is it?" +
-                "\n[12 IN ROUND]" +
-                "\n[6 IN ROUND]");
-    }
-
     public static Double cakePrice(String size) {
        if (size.equals("12 IN ROUND")) {
            return 24.99;
@@ -175,17 +162,5 @@ public class Console {
            return 12.99;
        }
        return null;
-    }
-
-    public void iceCreamBrand() {
-        System.out.println("Enter the brand");
-    }
-
-    public void iceCreamFlavor() {
-        System.out.println("What flavor is it?");
-    }
-
-    public void iceCreamSize() {
-        System.out.println("Enter a size.");
     }
 }
