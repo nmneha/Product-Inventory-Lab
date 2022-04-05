@@ -11,16 +11,15 @@ class CakeTest {
     public void constructorTest() {
         int id = 123;
         String flavor = "Red Velvety";
-        String brand = "Sera an' Dipity";
         String size = "12 inch round";
         int qty = 15;
         double price = 6.99;
 
-        Cake redVelvet = new Cake(id, brand, flavor, size, qty, price);
+        Cake redVelvet = new Cake(id, flavor, size, qty, price);
 
         Assertions.assertEquals(id, redVelvet.getId());
         Assertions.assertEquals(flavor, redVelvet.getFlavor());
-        Assertions.assertEquals(brand, redVelvet.getBrand());
+        Assertions.assertEquals("Sera 'N' Dipity", redVelvet.getBrand());
         Assertions.assertEquals(size, redVelvet.getSize());
         Assertions.assertEquals(price, redVelvet.getPrice());
     }
@@ -42,11 +41,8 @@ class CakeTest {
     }
 
     @Test
-    public void setBrandTest() {
-        String brand = "Sera an' Dipity";
-        testCake.setBrand(brand);
-
-        Assertions.assertEquals(brand, testCake.getBrand());
+    public void getBrandTest() {
+        Assertions.assertEquals("Sera 'N' Dipity", testCake.getBrand());
     }
 
     @Test

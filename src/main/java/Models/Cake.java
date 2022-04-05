@@ -9,12 +9,12 @@ public class Cake {
     private double price;
 
     public Cake (){
-        this(0,"", "", "", 0, 0.00);
+        this(0, "", "", 0, 0.00);
     }
 
-    public Cake(int id, String brand, String flavor, String size, int qty, double price) {
+    public Cake(int id, String flavor, String size, int qty, double price) {
         this.id = id;
-        this.brand = brand;
+        this.brand = "Sera 'N' Dipity";
         this.flavor = flavor;
         this.size = size;
         this.qty = qty;
@@ -31,10 +31,6 @@ public class Cake {
 
     public String getBrand() {
         return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
     }
 
     public String getFlavor() {

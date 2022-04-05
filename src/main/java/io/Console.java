@@ -1,12 +1,19 @@
 package io;
 
+import Models.Cake;
+import Models.IceCream;
+import Services.CakeService;
+import Services.IceCreamService;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Console {
-    Scanner userInput = new Scanner(System.in);
+    private static Scanner userInput = new Scanner(System.in);
+    static IceCreamService iceCreamService = new IceCreamService();
+    static CakeService cakeService = CakeService.shared();
 
-    public int getNumber(String message) {
+    public static int getNumber(String message) {
         while (true) {
             System.out.println(message);
             try {
@@ -17,8 +24,9 @@ public class Console {
         }
     }
 
+
     //this may not work TODO - make sure you add a condition to catch invalid strings
-    public String getString(String message) {
+    public static String getString(String message) {
         while (true) {
             System.out.println(message);
             try {
@@ -47,8 +55,6 @@ public class Console {
                 "\n4. DELETE PRODUCTS" +
                 "\n5. GET REPORT" +
                 "\n6. EXIT");
-
-        System.out.println("\nSelect a number from the main menu");
     }
 
     public static void selectMenu(int number) {
@@ -70,15 +76,17 @@ public class Console {
     }
 
     public static void create() {
-        System.out.println("Welcome to Product Create Center.");
-        System.out.println("Select new product type: " +
+        System.out.println("Welcome to Product Create Center"+
+                "\nSelect new product type: " +
                 "\n1. Ice Cream" +
                 "\n2. Cake");
-
     }
 
     public static void read() {
-
+        System.out.println("Welcome to Inventory Reader" +
+                "Which inventory would you like to look at?:" +
+                "\n1. Ice Cream" +
+                "\n2. Cake");
     }
 
     public static void update() {
@@ -97,4 +105,34 @@ public class Console {
 
     }
 
+    public static void cakeFlavor() {
+        System.out.println("What flavor is the cake?");
+    }
+
+    public static void  cakeSize() {
+        System.out.println("What size cake is it?" +
+                "\n[12 IN ROUND]" +
+                "\n[6 IN ROUND]");
+    }
+
+    public static Double cakePrice(String size) {
+       if (size.equals("12 IN ROUND")) {
+           return 24.99;
+       } else if (size.equals("6 IN ROUND")) {
+           return 12.99;
+       }
+       return null;
+    }
+
+    public void iceCreamBrand() {
+        System.out.println("Enter the brand");
+    }
+
+    public void iceCreamFlavor() {
+        System.out.println("What flavor is it?");
+    }
+
+    public void iceCreamSize() {
+        System.out.println("Enter a size.");
+    }
 }
