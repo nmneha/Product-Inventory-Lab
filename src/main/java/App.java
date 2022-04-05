@@ -33,11 +33,10 @@ public class App {
 
     private void init() {
         console.printWelcome();
-        console.printMainMenu();
         int number = 0;
         while (number != 6 ) {
+            console.printMainMenu();
             number = getNumber("Select from the menu above");
-            console.selectMenu(number);
             if (number == 1) {
                 console.create();
                 int productType = getNumber("ENTER 1 OR 2");
