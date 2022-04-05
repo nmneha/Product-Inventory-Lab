@@ -19,7 +19,7 @@ class CakeServiceTest {
         double price = 19.99;
 
         CakeService service = new CakeService();
-        Cake ss = service.create(brand, flavor, size, qty, price);
+        Cake ss = service.createCake(brand, flavor, size, qty, price);
 
         int actualId = ss.getId();
         String actualFlavor = ss.getFlavor();;
@@ -35,22 +35,22 @@ class CakeServiceTest {
         assertEquals(qty, actualQty);
         assertEquals(price, actualPrice);
 
-        service.delete(ss.getId());
+        service.deleteCake(ss.getId());
     }
 
     @Test
-    void findIceCream() {
+    void findCake() {
         String flavor = "Choco Choc";
         String brand = "Sera 'an Dipity";
         String size = "12 in round";
         int qty = 12;
         double price = 19.99;
 
-        IceCreamService service = new IceCreamService();
-        IceCream cc =  service.create(brand, flavor, size, qty, price);
+        CakeService service = new CakeService();
+        Cake cc =  service.createCake(brand, flavor, size, qty, price);
 
-        Assertions.assertEquals(cc, service.findIceCream(cc.getId()));
-        service.delete(cc.getId());
+        Assertions.assertEquals(cc, service.findCake(cc.getId()));
+        service.deleteCake(cc.getId());
     }
 
     @Test
@@ -62,14 +62,14 @@ class CakeServiceTest {
         double price = 15.99;
 
         CakeService service = new CakeService();
-        Cake saltedstacks =  service.create(brand, flavor, size, qty, price);
-        Cake birthday_bash = service.create(brand, "Birthday Bash", size, 10, price);
+        Cake saltedstacks =  service.createCake(brand, flavor, size, qty, price);
+        Cake birthday_bash = service.createCake(brand, "Birthday Bash", size, 10, price);
 
         Cake[] expected = {saltedstacks, birthday_bash};
 
-        Assertions.assertArrayEquals(expected, service.findAll());
-        service.delete(saltedstacks.getId());
-        service.delete(birthday_bash.getId());
+        Assertions.assertArrayEquals(expected, service.findAllCake());
+        service.deleteCake(saltedstacks.getId());
+        service.deleteCake(birthday_bash.getId());
 
     }
 
@@ -82,9 +82,9 @@ class CakeServiceTest {
         double price = 6.99;
 
         CakeService service = new CakeService();
-        Cake ssb =  service.create(brand, flavor, size, qty, price);
+        Cake ssb =  service.createCake(brand, flavor, size, qty, price);
 
-        Assertions.assertTrue(service.delete(ssb.getId()));
+        Assertions.assertTrue(service.deleteCake(ssb.getId()));
         Assertions.assertNull(service.findCake(ssb.getId()));
 
     }

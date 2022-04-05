@@ -12,7 +12,7 @@ public class CakeService {
     private List<Cake> inventory = new ArrayList<>();
 
 
-    public Cake create(String brand, String flavor, String size, int qty, double price) {
+    public Cake createCake(String brand, String flavor, String size, int qty, double price) {
         Cake createdCake = new Cake(nextId++, brand, flavor, size, qty, price);
         inventory.add(createdCake);
 
@@ -29,7 +29,7 @@ public class CakeService {
         return null;
     }
 
-    public Cake[] findAll() {
+    public Cake[] findAllCake() {
         // should return a basic array copy of the ArrayList
         Cake[] array = new Cake[inventory.size()];
         for (int i = 0; i < array.length; i++) {
@@ -39,7 +39,7 @@ public class CakeService {
     }
 
     //delete
-    public boolean delete(int id) {
+    public boolean deleteCake(int id) {
         if (findCake(id) != null) {
             inventory.remove(findCake(id));
             return true;

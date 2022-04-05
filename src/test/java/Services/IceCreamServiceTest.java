@@ -17,7 +17,7 @@ class IceCreamServiceTest {
         double price = 6.99;
 
         IceCreamService service = new IceCreamService();
-        IceCream bbb = service.create(brand, flavor, size, qty, price);
+        IceCream bbb = service.createIceCream(brand, flavor, size, qty, price);
 
         int actualId = bbb.getId();
         String actualFlavor = bbb.getFlavor();;
@@ -33,7 +33,7 @@ class IceCreamServiceTest {
         assertEquals(qty, actualQty);
         assertEquals(price, actualPrice);
 
-        service.delete(bbb.getId());
+        service.deleteIceCream(bbb.getId());
     }
 
     @Test
@@ -45,10 +45,10 @@ class IceCreamServiceTest {
         double price = 6.99;
 
         IceCreamService service = new IceCreamService();
-        IceCream ssb =  service.create(brand, flavor, size, qty, price);
+        IceCream ssb =  service.createIceCream(brand, flavor, size, qty, price);
 
         Assertions.assertEquals(ssb, service.findIceCream(ssb.getId()));
-        service.delete(ssb.getId());
+        service.deleteIceCream(ssb.getId());
     }
 
     @Test
@@ -60,14 +60,14 @@ class IceCreamServiceTest {
         double price = 6.99;
 
         IceCreamService service = new IceCreamService();
-        IceCream ssb =  service.create(brand, flavor, size, qty, price);
-        IceCream bubbleGum = service.create(brand, "Bubble Gum", size, 15, price);
+        IceCream ssb =  service.createIceCream(brand, flavor, size, qty, price);
+        IceCream bubbleGum = service.createIceCream(brand, "Bubble Gum", size, 15, price);
 
         IceCream[] expected = {ssb,  bubbleGum};
 
-        Assertions.assertArrayEquals(expected, service.findAll());
-        service.delete(ssb.getId());
-        service.delete(bubbleGum.getId());
+        Assertions.assertArrayEquals(expected, service.findAllIceCream());
+        service.deleteIceCream(ssb.getId());
+        service.deleteIceCream(bubbleGum.getId());
 
     }
 
@@ -80,9 +80,9 @@ class IceCreamServiceTest {
         double price = 6.99;
 
         IceCreamService service = new IceCreamService();
-        IceCream ssb =  service.create(brand, flavor, size, qty, price);
+        IceCream ssb =  service.createIceCream(brand, flavor, size, qty, price);
 
-        Assertions.assertTrue(service.delete(ssb.getId()));
+        Assertions.assertTrue(service.deleteIceCream(ssb.getId()));
         Assertions.assertNull(service.findIceCream(ssb.getId()));
 
 

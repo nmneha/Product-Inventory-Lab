@@ -12,7 +12,7 @@ public class IceCreamService {
     private List<IceCream> inventory = new ArrayList<>();
 
 
-    public IceCream create(String brand, String flavor, String size, int qty, double price) {
+    public IceCream createIceCream(String brand, String flavor, String size, int qty, double price) {
         IceCream createdIceCream = new IceCream(nextId++, brand, flavor, size, qty, price);
         inventory.add(createdIceCream);
 
@@ -31,7 +31,7 @@ public class IceCreamService {
     }
 
     //read all
-    public IceCream[] findAll() {
+    public IceCream[] findAllIceCream() {
         // should return a basic array copy of the ArrayList
         IceCream[] array = new IceCream[inventory.size()];
         for (int i = 0; i < array.length; i++) {
@@ -41,7 +41,7 @@ public class IceCreamService {
     }
 
     //delete
-    public boolean delete(int id) {
+    public boolean deleteIceCream(int id) {
         if (findIceCream(id) != null) {
             inventory.remove(findIceCream(id));
             return true;
