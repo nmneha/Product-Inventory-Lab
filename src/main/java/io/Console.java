@@ -30,9 +30,20 @@ public class Console {
         while (true) {
             System.out.println(message);
             try {
-                return userInput.next();
+                return userInput.nextLine();
             } catch (InputMismatchException e) {
                 System.out.println("\"" + userInput.next() + "\" isn't a valid input!");
+            }
+        }
+    }
+
+    public static double getDouble(String message) {
+        while (true) {
+            System.out.println(message);
+            try {
+                return userInput.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("\"" + userInput.next() + "\" isn't a number!");
             }
         }
     }
@@ -57,23 +68,23 @@ public class Console {
                 "\n6. EXIT");
     }
 
-    public static void selectMenu(int number) {
-        if (number == 1) {
-            create();
-        } else if (number == 2) {
-            read();
-        } else if (number == 3) {
-            update();
-        } else if (number == 4) {
-            delete();
-        } else if (number == 5) {
-            get();
-        } else if (number == 6) {
-            exit();
-        } else if (number > 6 || number < 0) {
-            System.out.println("Invalid entry. Please pick a number from the menu above");
-        }
-    }
+//    public static void selectMenu(int number) {
+//        if (number == 1) {
+//            create();
+//        } else if (number == 2) {
+//            read();
+//        } else if (number == 3) {
+//            update();
+//        } else if (number == 4) {
+//            delete();
+//        } else if (number == 5) {
+//            get();
+//        } else if (number == 6) {
+//            exit();
+//        } else if (number > 6 || number < 0) {
+//            System.out.println("Invalid entry. Please pick a number from the menu above");
+//        }
+//    }
 
     public static void create() {
         System.out.println("Welcome to Product Create Center"+
@@ -87,8 +98,8 @@ public class Console {
         String flavor = getString("What flavor is it?");
         String size = getString("Enter a size.");
         int qty = getNumber("How much inventory is there?");
-        System.out.println("What is the price?");
-        double price = userInput.nextInt();
+        double price = getDouble("What is the price?");
+
         iceCreamService.createIceCream(brand, flavor, size, qty, price);
     }
 
@@ -101,7 +112,7 @@ public class Console {
         while (size != "12 IN ROUND" || size != "6 IN ROUND") {
             System.out.println("This is not a valid input." +
                     "Please enter a size from above.");
-            size = userInput.next();
+            size = userInput.nextLine();
         }
         int qty = getNumber("How much inventory is there?");
         double price = cakePrice(size);
@@ -139,9 +150,26 @@ public class Console {
         }
     }
 
-    public static void update() {
+    public int update() {
+        System.out.println("Welcome to the Product Update Center." +
+                "\nSelect the inventory you would like to go into" +
+                "\n1. Ice Cream" +
+                "\n2. Cake");
+        int choice = getNumber("ENTER 1 OR 2");
+        while (choice != 1 || choice != 2) {
+            choice = userInput.nextInt();
+        }
+        return choice;
+    }
+
+    public void updateCake() {
+        System.out.println("Would you like to see your current inventory?");
+    }
+
+    public void updateIceCream() {
 
     }
+
 
     public static void delete() {
 
