@@ -82,11 +82,64 @@ public class Console {
                 "\n2. Cake");
     }
 
+    public void createIceCream() {
+        iceCreamBrand();
+        String brand = userInput.next();
+        iceCreamFlavor();
+        String flavor = userInput.next();
+        iceCreamSize();
+        String size = userInput.next();
+        int qty = getNumber("How much inventory is there?");
+        System.out.println("What is the price?");
+        double price = userInput.nextInt();
+        iceCreamService.createIceCream(brand, flavor, size, qty, price);
+    }
+
+
+    public void createCake() {
+        cakeFlavor();
+        String flavor = userInput.next();
+        cakeSize();
+        String size = userInput.next();
+        while (size != "12 IN ROUND" || size != "6 IN ROUND") {
+            System.out.println("This is not a valid input." +
+                    "Please enter a size from above.");
+            size = userInput.next();
+        }
+        int qty = getNumber("How much inventory is there?");
+        double price = cakePrice(size);
+        cakeService.create(flavor, size, qty, price);
+    }
+
     public static void read() {
         System.out.println("Welcome to Inventory Reader" +
                 "Which inventory would you like to look at?:" +
                 "\n1. Ice Cream" +
                 "\n2. Cake");
+    }
+
+    public void readIceCream() {
+        IceCream[] array = iceCreamService.findAllIceCream();
+        if (array.length != 0) {
+            for (int i = 0; i < array.length; i++) {
+                IceCream ic = array[i];
+                iceCreamService.printIceCream(ic);
+            }
+        } else {
+            System.out.println("There is no inventory for this product.");
+        }
+    }
+
+    public void readCake() {
+        Cake[] array = cakeService.findAll();
+        if (array.length != 0) {
+            for (int i = 0; i < array.length; i++) {
+                Cake c = array[i];
+                cakeService.printCake(c);
+            }
+        } else {
+            System.out.println("There is no inventory for this product.");
+        }
     }
 
     public static void update() {

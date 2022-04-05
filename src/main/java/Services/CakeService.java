@@ -63,5 +63,13 @@ public class CakeService {
         return false;
     }
 
+    public void printCake(Cake c) {
+        System.out.println("Id: " + c.getId() +
+                "\nFlavor: " + c.getFlavor() +
+                "\nSize: " + c.getSize() +
+                "\nQty: " + c.getQty() +
+                "\nPrice: " + c.getPrice() +
+                "\n\n-------------------------------");
+    }
 
 }

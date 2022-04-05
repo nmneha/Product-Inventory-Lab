@@ -51,6 +51,14 @@ public class IceCreamService {
         return false;
     }
 
-
+    public void printIceCream(IceCream ic) {
+        System.out.println("Id: " + ic.getId() +
+                "\nBrand: " + ic.getBrand() +
+                "\nFlavor: " + ic.getFlavor() +
+                "\nSize: " + ic.getSize() +
+                "\nQty: " + ic.getQty() +
+                "\nPrice: " + ic.getPrice() +
+                "\n\n-------------------------------");
+    }
 
 }

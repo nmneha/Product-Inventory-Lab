@@ -42,17 +42,17 @@ public class App {
                 console.create();
                 int productType = getNumber("ENTER 1 OR 2");
                 if (productType == 1) {
-                    createIceCream();
+                    console.createIceCream();
                 } else if (productType == 2) {
-                    createCake();
+                    console.createCake();
                 }
             } else if (number == 2) {
                 console.read();
                 int inventoryNum = getNumber("ENTER 1 OR 2");
                 if (inventoryNum == 1) {
-                   readIceCream();
+                   console.readIceCream();
                 } else if (inventoryNum == 2) {
-                    readCake();
+                    console.readCake();
                 }
 
             } else if (number == 3) {
@@ -68,68 +68,6 @@ public class App {
         }
     }
 
-    private void createCake() {
-        console.cakeFlavor();
-        String flavor = userInput.next();
-        console.cakeSize();
-        String size = userInput.next();
-        while (size != "12 IN ROUND" || size != "6 IN ROUND") {
-            System.out.println("This is not a valid input." +
-                    "Please enter a size from above.");
-            size = userInput.next();
-        }
-        int qty = getNumber("How much inventory is there?");
-        double price = console.cakePrice(size);
-        cakeService.create(flavor, size, qty, price);
-    }
-
-    private void createIceCream() {
-        console.iceCreamBrand();
-        String brand = userInput.next();
-        console.iceCreamFlavor();
-        String flavor = userInput.next();
-        console.iceCreamSize();
-        String size = userInput.next();
-        int qty = getNumber("How much inventory is there?");
-        System.out.println("What is the price?");
-        double price = userInput.nextInt();
-        iceCreamService.createIceCream(brand, flavor, size, qty, price);
-    }
-
-    public void readIceCream() {
-        IceCream[] array = iceCreamService.findAllIceCream();
-        if (array.length != 0) {
-            for (int i = 0; i < array.length; i++) {
-            IceCream ic = array[i];
-            System.out.println("Id: " + ic.getId() +
-                    "\nBrand: " + ic.getBrand() +
-                    "\nFlavor: " + ic.getFlavor() +
-                    "\nSize: " + ic.getSize() +
-                    "\nQty: " + ic.getQty() +
-                    "\nPrice: " + ic.getPrice() +
-                    "\n\n-------------------------------");
-            }
-        } else {
-            System.out.println("There is no inventory for this product.");
-        }
-    }
-
-    public void readCake() {
-        Cake[] array = cakeService.findAll();
-        if (array.length != 0) {
-            for (int i = 0; i < array.length; i++) {
-                Cake c = array[i];
-                System.out.println("Id: " + c.getId() +
-                        "\nFlavor: " + c.getFlavor() +
-                        "\nSize: " + c.getSize() +
-                        "\nQty: " + c.getQty() +
-                        "\nPrice: " + c.getPrice() +
-                        "\n\n-------------------------------");
-            }
-        } else {
-            System.out.println("There is no inventory for this product.");
-        }
-    }
 }
 
 
