@@ -61,7 +61,12 @@ public class App {
                     console.updateCake();
                 }
             } else if (number == 4) {
-
+                int choice = Console.delete();
+                if (choice == 1) {
+                    console.deleteIceCream();
+                } else {
+                    console.deleteCake();
+                }
             } else if (number == 5) {
 
             } else if (number > 6 || number < 1) {

@@ -72,24 +72,6 @@ public class Console {
                 "\n6. EXIT");
     }
 
-//    public static void selectMenu(int number) {
-//        if (number == 1) {
-//            create();
-//        } else if (number == 2) {
-//            read();
-//        } else if (number == 3) {
-//            update();
-//        } else if (number == 4) {
-//            delete();
-//        } else if (number == 5) {
-//            get();
-//        } else if (number == 6) {
-//            exit();
-//        } else if (number > 6 || number < 0) {
-//            System.out.println("Invalid entry. Please pick a number from the menu above");
-//        }
-//    }
-
     public static void create() {
         System.out.println("Welcome to Product Create Center"+
                 "\nSelect new product type: " +
@@ -169,9 +151,7 @@ public class Console {
     }
 
     public void updateCake() {
-        System.out.println("This is your current inventory: \n");
-        System.out.println("\n-------------------------------\n");
-        System.out.println(cakeService.printAllCake());
+        currentInventory("Cake");
         int exit = cakeService.findAll(inventory).length;
 
         int choice = getNumber("Choose an ID to update the inventory or enter " + 0 + " to exit");
@@ -187,10 +167,8 @@ public class Console {
                 update.setQty(inventoryUpdate);
                 System.out.println("The inventory of item " + update.getId() + " has been updated to " + update.getQty() + "." +
                         "\nIs this correct?");
-                confirm = getString("Enter YES or NO");
-                while(!confirm.equals("YES") && !confirm.equals("NO")) {
-                    confirm = getString("This is not a valid input. Please enter YES or NO.");
-                }
+                confirm = userInput.nextLine();
+                yesNO(confirm);
             }
         } else if (choice == 0) {
             System.out.println("See you later.");
@@ -199,9 +177,7 @@ public class Console {
     }
 
     public void updateIceCream() {
-        System.out.println("This is your current inventory: \n");
-        System.out.println("\n-------------------------------\n");
-        System.out.println(iceCreamService.printAllIceCream());
+        currentInventory("Ice Cream");
         int exit = iceCreamService.findAllIceCream().length;
 
         int choice = getNumber("Choose an ID to update the inventory or enter " + 0 + " to exit");
@@ -217,10 +193,8 @@ public class Console {
                 update.setQty(inventoryUpdate);
                 System.out.println("The inventory of item " + update.getId() + " has been updated to " + update.getQty() + "." +
                         "\nIs this correct?");
-                confirm = getString("Enter YES or NO");
-                while(!confirm.equals("YES") && !confirm.equals("NO")) {
-                    confirm = getString("This is not a valid input. Please enter YES or NO.");
-                }
+                confirm = userInput.nextLine();
+                yesNO(confirm);
             }
         } else if (choice == 0) {
             System.out.println("See you later.");
@@ -228,10 +202,41 @@ public class Console {
     }
 
 
-    public static void delete() {
+    public static int delete() {
         System.out.println("Product Deletion Center" +
-                "\nPlease pick which inventory you would like to edit.");
+                "\nPlease pick which inventory you would like to edit." +
+                "\n1. Ice Cream" +
+                "\n2. Cake");
+        int choice = getNumber("ENTER 1 OR 2");
+        while (choice <= 0 || choice > 2) {
+            choice = getNumber("This is not a valid input. Enter 1 or 2");
+        }
+        return choice;
+    }
 
+    public void deleteIceCream() {
+        currentInventory("Ice Cream");
+        String confirm = "NO";
+        int choice = getNumber("Enter the ID of the item you want to delete " + 0 + " to exit");
+        while (choice < 0 || choice > iceCreamService.findAllIceCream().length) {
+            choice = getNumber("This is not a valid ID." +
+                    "\nPlease pick an ID from your current product inventory");
+        }
+        while (choice != 0) {
+            confirm = getString("You are about to delete item of ID: " + choice + "." +
+                    "\nAre you sure you would like to delete this item?" +
+                    "\nEnter YES to delete or NO to exit");
+            confirm = yesNO(confirm);
+            if (confirm.equals("YES")) {
+                iceCreamService.getInventory().remove(choice - 1);
+                break;
+            } else {
+                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
+            }
+        }
+    }
+
+    public void deleteCake() {
     }
 
     public static void get() {
@@ -249,5 +254,24 @@ public class Console {
            return 12.99;
        }
        return null;
+    }
+
+    public void currentInventory(String product) {
+        if (product.equals("Ice Cream")) {
+            System.out.println("This is your current inventory: \n");
+            System.out.println("\n-------------------------------\n");
+            System.out.println(iceCreamService.printAllIceCream());
+        } else {
+            System.out.println("This is your current inventory: \n");
+            System.out.println("\n-------------------------------\n");
+            System.out.println(cakeService.printAllCake());
+        }
+    }
+
+    public String yesNO(String confirm) {
+            while (!confirm.equals("YES") && !confirm.equals("NO")) {
+                confirm = getString("Please enter YES or NO.");
+            }
+        return confirm;
     }
 }
