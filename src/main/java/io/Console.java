@@ -5,13 +5,17 @@ import Models.IceCream;
 import Services.CakeService;
 import Services.IceCreamService;
 
+
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Console {
     private static Scanner userInput = new Scanner(System.in);
-    static IceCreamService iceCreamService = new IceCreamService();
+    static IceCreamService iceCreamService = IceCreamService.shared();
     static CakeService cakeService = CakeService.shared();
+    static List<Cake> inventory = cakeService.getInventory();
 
     public static int getNumber(String message) {
         while (true) {
@@ -109,7 +113,7 @@ public class Console {
         String size = getString("What size cake is it?" +
                 "\n[12 IN ROUND]" +
                 "\n[6 IN ROUND]");
-        while (size != "12 IN ROUND" || size != "6 IN ROUND") {
+        while (!size.equals("12 IN ROUND") && !size.equals("6 IN ROUND")) {
             System.out.println("This is not a valid input." +
                     "Please enter a size from above.");
             size = userInput.nextLine();
@@ -121,17 +125,18 @@ public class Console {
 
     public static void read() {
         System.out.println("Welcome to Inventory Reader" +
-                "Which inventory would you like to look at?:" +
+                "\nWhich inventory would you like to look at?:" +
                 "\n1. Ice Cream" +
                 "\n2. Cake");
     }
 
     public void readIceCream() {
+        System.out.println("\n-------------------------------\n");
         IceCream[] array = iceCreamService.findAllIceCream();
         if (array.length != 0) {
             for (int i = 0; i < array.length; i++) {
                 IceCream ic = array[i];
-                iceCreamService.printIceCream(ic);
+                System.out.println(iceCreamService.printIceCream(ic));
             }
         } else {
             System.out.println("There is no inventory for this product.");
@@ -139,11 +144,12 @@ public class Console {
     }
 
     public void readCake() {
-        Cake[] array = cakeService.findAll();
+        System.out.println("\n-------------------------------\n");
+        Cake[] array = cakeService.findAll(inventory);
         if (array.length != 0) {
             for (int i = 0; i < array.length; i++) {
                 Cake c = array[i];
-                cakeService.printCake(c);
+                System.out.println(cakeService.printCake(c));
             }
         } else {
             System.out.println("There is no inventory for this product.");
@@ -156,18 +162,69 @@ public class Console {
                 "\n1. Ice Cream" +
                 "\n2. Cake");
         int choice = getNumber("ENTER 1 OR 2");
-        while (choice != 1 || choice != 2) {
-            choice = userInput.nextInt();
+        while (choice <= 0 || choice > 2) {
+            choice = getNumber("This is not a valid input. Enter 1 or 2");
         }
         return choice;
     }
 
     public void updateCake() {
-        System.out.println("Would you like to see your current inventory?");
+        System.out.println("This is your current inventory: \n");
+        System.out.println("\n-------------------------------\n");
+        System.out.println(cakeService.printAllCake());
+        int exit = cakeService.findAll(inventory).length;
+
+        int choice = getNumber("Choose an ID to update the inventory or enter " + 0 + " to exit");
+        while (choice < 0 || choice > cakeService.findAll(inventory).length) {
+            choice = getNumber("This is not a valid ID." +
+                    "\nPlease pick an ID from your current product inventory");
+        }
+        if (choice <= exit && choice > 0) {
+            String confirm = "NO";
+            while (confirm.equals("NO")) {
+                Cake update = cakeService.getInventory().get(choice-1);
+                int inventoryUpdate = getNumber("Enter the updated inventory for this item.");
+                update.setQty(inventoryUpdate);
+                System.out.println("The inventory of item " + update.getId() + " has been updated to " + update.getQty() + "." +
+                        "\nIs this correct?");
+                confirm = getString("Enter YES or NO");
+                while(!confirm.equals("YES") && !confirm.equals("NO")) {
+                    confirm = getString("This is not a valid input. Please enter YES or NO.");
+                }
+            }
+        } else if (choice == 0) {
+            System.out.println("See you later.");
+        }
+
     }
 
     public void updateIceCream() {
+        System.out.println("This is your current inventory: \n");
+        System.out.println("\n-------------------------------\n");
+        System.out.println(iceCreamService.printAllIceCream());
+        int exit = iceCreamService.findAllIceCream().length;
 
+        int choice = getNumber("Choose an ID to update the inventory or enter " + 0 + " to exit");
+        while (choice < 0 || choice > iceCreamService.findAllIceCream().length) {
+            choice = getNumber("This is not a valid ID." +
+                    "\nPlease pick an ID from your current product inventory");
+        }
+        if (choice <= exit && choice > 0) {
+            String confirm = "NO";
+            while (confirm.equals("NO")) {
+                IceCream update = iceCreamService.getInventory().get(choice-1);
+                int inventoryUpdate = getNumber("Enter the updated inventory for this item.");
+                update.setQty(inventoryUpdate);
+                System.out.println("The inventory of item " + update.getId() + " has been updated to " + update.getQty() + "." +
+                        "\nIs this correct?");
+                confirm = getString("Enter YES or NO");
+                while(!confirm.equals("YES") && !confirm.equals("NO")) {
+                    confirm = getString("This is not a valid input. Please enter YES or NO.");
+                }
+            }
+        } else if (choice == 0) {
+            System.out.println("See you later.");
+        }
     }
 
 

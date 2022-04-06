@@ -1,5 +1,6 @@
 package Services;
 
+import Models.Cake;
 import Models.IceCream;
 
 import java.util.ArrayList;
@@ -10,6 +11,13 @@ public class IceCreamService {
 
     private static int nextId = 1;
     private List<IceCream> inventory = new ArrayList<>();
+    private static IceCreamService iceCreamService = new IceCreamService();
+
+    private IceCreamService() {}
+
+    public static IceCreamService shared() {
+        return iceCreamService;
+    }
 
 
     public IceCream createIceCream(String brand, String flavor, String size, int qty, double price) {
@@ -51,14 +59,32 @@ public class IceCreamService {
         return false;
     }
 
-    public void printIceCream(IceCream ic) {
-        System.out.println("Id: " + ic.getId() +
+    public String printIceCream(IceCream ic) {
+        String iceCream = "Id: " + ic.getId() +
                 "\nBrand: " + ic.getBrand() +
                 "\nFlavor: " + ic.getFlavor() +
                 "\nSize: " + ic.getSize() +
                 "\nQty: " + ic.getQty() +
                 "\nPrice: " + ic.getPrice() +
-                "\n\n-------------------------------");
+                "\n\n-------------------------------";
+        return iceCream;
+    }
+
+    public String printAllIceCream() {
+        IceCream[] iceCream = findAllIceCream();
+        String iceCreamInventory = "";
+        for (int i = 0; i < iceCream.length; i++) {
+            if (i == iceCream.length-1) {
+                iceCreamInventory += printIceCream(iceCream[i]);
+            } else {
+                iceCreamInventory += printIceCream(iceCream[i]) + "\n";
+            }
+        }
+        return iceCreamInventory;
+    }
+
+    public List<IceCream> getInventory() {
+        return inventory;
     }
 
 }

@@ -5,11 +5,14 @@ import Models.IceCream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CakeServiceTest {
 
     CakeService service = CakeService.shared();
+    List<Cake> inventory = service.getInventory();
 
     @Test
     public void createTest() {
@@ -63,7 +66,7 @@ class CakeServiceTest {
 
         Cake[] expected = {saltedstacks, birthday_bash};
 
-        Assertions.assertArrayEquals(expected, service.findAll());
+        Assertions.assertArrayEquals(expected, service.findAll(inventory));
         service.delete(saltedstacks.getId());
         service.delete(birthday_bash.getId());
 

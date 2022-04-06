@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IceCreamServiceTest {
 
+    IceCreamService service = IceCreamService.shared();
+
     @Test
     public void createTest() {
         String flavor = "Bunny BonBon";
@@ -16,7 +18,6 @@ class IceCreamServiceTest {
         int qty = 12;
         double price = 6.99;
 
-        IceCreamService service = new IceCreamService();
         IceCream bbb = service.createIceCream(brand, flavor, size, qty, price);
 
         int actualId = bbb.getId();
@@ -44,7 +45,6 @@ class IceCreamServiceTest {
         int qty = 12;
         double price = 6.99;
 
-        IceCreamService service = new IceCreamService();
         IceCream ssb =  service.createIceCream(brand, flavor, size, qty, price);
 
         Assertions.assertEquals(ssb, service.findIceCream(ssb.getId()));
@@ -59,7 +59,6 @@ class IceCreamServiceTest {
         int qty = 12;
         double price = 6.99;
 
-        IceCreamService service = new IceCreamService();
         IceCream ssb =  service.createIceCream(brand, flavor, size, qty, price);
         IceCream bubbleGum = service.createIceCream(brand, "Bubble Gum", size, 15, price);
 
@@ -79,7 +78,6 @@ class IceCreamServiceTest {
         int qty = 12;
         double price = 6.99;
 
-        IceCreamService service = new IceCreamService();
         IceCream ssb =  service.createIceCream(brand, flavor, size, qty, price);
 
         Assertions.assertTrue(service.deleteIceCream(ssb.getId()));

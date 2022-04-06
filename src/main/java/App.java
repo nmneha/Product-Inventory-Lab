@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class App {
     private CakeService cakeService = CakeService.shared();
-    private IceCreamService iceCreamService = new IceCreamService();
-    Console console = new Console();
+    private IceCreamService iceCreamService = IceCreamService.shared();
+    private Console console = new Console();
 
     private static Scanner userInput = new Scanner(System.in);
 
@@ -32,13 +32,13 @@ public class App {
     }
 
     private void init() {
-        console.printWelcome();
+        Console.printWelcome();
         int number = 0;
         while (number != 6 ) {
-            console.printMainMenu();
+            Console.printMainMenu();
             number = getNumber("Select from the menu above");
             if (number == 1) {
-                console.create();
+                Console.create();
                 int productType = getNumber("ENTER 1 OR 2");
                 if (productType == 1) {
                     console.createIceCream();
@@ -46,7 +46,7 @@ public class App {
                     console.createCake();
                 }
             } else if (number == 2) {
-                console.read();
+                Console.read();
                 int inventoryNum = getNumber("ENTER 1 OR 2");
                 if (inventoryNum == 1) {
                    console.readIceCream();
@@ -54,12 +54,17 @@ public class App {
                     console.readCake();
                 }
             } else if (number == 3) {
-
+                int choice = console.update();
+                if (choice == 1) {
+                    console.updateIceCream();
+                } else {
+                    console.updateCake();
+                }
             } else if (number == 4) {
 
             } else if (number == 5) {
 
-            } else if (number > 6 || number < 6) {
+            } else if (number > 6 || number < 1) {
                 getNumber("This is not a valid input." +
                         "\nPlease pick a number from the menu above or enter 6 to exit.");
             }

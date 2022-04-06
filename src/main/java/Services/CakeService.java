@@ -18,7 +18,6 @@ public class CakeService {
     private CakeService() {}
 
     public List<Cake> getInventory() {
-        inventory.forEach(System.out::println);
         return inventory;
     }
 
@@ -43,7 +42,7 @@ public class CakeService {
         return null;
     }
 
-    public Cake[] findAll() {
+    public Cake[] findAll(List<Cake> inventory) {
         // should return a basic array copy of the ArrayList
         Cake[] array = new Cake[inventory.size()];
         for (int i = 0; i < array.length; i++) {
@@ -63,13 +62,27 @@ public class CakeService {
         return false;
     }
 
-    public void printCake(Cake c) {
-        System.out.println("Id: " + c.getId() +
+    public String printCake(Cake c) {
+        String cake = "Id: " + c.getId() +
                 "\nFlavor: " + c.getFlavor() +
                 "\nSize: " + c.getSize() +
                 "\nQty: " + c.getQty() +
                 "\nPrice: " + c.getPrice() +
-                "\n\n-------------------------------");
+                "\n\n-------------------------------";
+        return cake;
+    }
+
+    public String printAllCake() {
+        Cake[] cake = findAll(inventory);
+        String cakeInventory = "";
+        for (int i = 0; i < cake.length; i++) {
+            if (i == cake.length-1) {
+                cakeInventory += printCake(cake[i]);
+            } else {
+                cakeInventory += printCake(cake[i]) + "\n";
+            }
+        }
+        return cakeInventory;
     }
 
 }
