@@ -229,6 +229,8 @@ public class Console {
 
 
     public static void delete() {
+        System.out.println("Product Deletion Center" +
+                "\nPlease pick which inventory you would like to edit.");
 
     }
 
