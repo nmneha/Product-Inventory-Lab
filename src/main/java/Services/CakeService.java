@@ -42,7 +42,7 @@ public class CakeService {
         return null;
     }
 
-    public Cake[] findAll(List<Cake> inventory) {
+    public Cake[] findAll() {
         // should return a basic array copy of the ArrayList
         Cake[] array = new Cake[inventory.size()];
         for (int i = 0; i < array.length; i++) {
@@ -73,7 +73,7 @@ public class CakeService {
     }
 
     public String printAllCake() {
-        Cake[] cake = findAll(inventory);
+        Cake[] cake = findAll();
         String cakeInventory = "";
         for (int i = 0; i < cake.length; i++) {
             if (i == cake.length-1) {

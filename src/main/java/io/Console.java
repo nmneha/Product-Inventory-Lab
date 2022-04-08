@@ -15,7 +15,6 @@ public class Console {
     private static Scanner userInput = new Scanner(System.in);
     static IceCreamService iceCreamService = IceCreamService.shared();
     static CakeService cakeService = CakeService.shared();
-    static List<Cake> inventory = cakeService.getInventory();
 
     public static int getNumber(String message) {
         while (true) {
@@ -127,7 +126,7 @@ public class Console {
 
     public void readCake() {
         System.out.println("\n-------------------------------\n");
-        Cake[] array = cakeService.findAll(inventory);
+        Cake[] array = cakeService.findAll();
         if (array.length != 0) {
             for (int i = 0; i < array.length; i++) {
                 Cake c = array[i];
@@ -152,10 +151,10 @@ public class Console {
 
     public void updateCake() {
         currentInventory("Cake");
-        int exit = cakeService.findAll(inventory).length;
+        int exit = cakeService.findAll().length;
 
         int choice = getNumber("Choose an ID to update the inventory or enter " + 0 + " to exit");
-        while (choice < 0 || choice > cakeService.findAll(inventory).length) {
+        while (choice < 0 || choice > cakeService.findAll().length) {
             choice = getNumber("This is not a valid ID." +
                     "\nPlease pick an ID from your current product inventory");
         }
@@ -222,14 +221,14 @@ public class Console {
             choice = getNumber("This is not a valid ID." +
                     "\nPlease pick an ID from your current product inventory");
         }
+        confirm = getString("You are about to delete item of ID: " + choice + "." +
+                "\nAre you sure you would like to delete this item?" +
+                "\nEnter YES to delete or NO to exit");
         while (choice != 0) {
-            confirm = getString("You are about to delete item of ID: " + choice + "." +
-                    "\nAre you sure you would like to delete this item?" +
-                    "\nEnter YES to delete or NO to exit");
             confirm = yesNO(confirm);
             if (confirm.equals("YES")) {
-                iceCreamService.getInventory().remove(choice - 1);
-                break;
+                iceCreamService.deleteIceCream(choice);
+                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
             } else {
                 choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
             }
@@ -237,14 +236,35 @@ public class Console {
     }
 
     public void deleteCake() {
+        currentInventory("Cake");
+        String confirm = "NO";
+        int choice = getNumber("Enter the ID of the item you want to delete " + 0 + " to exit");
+        while (choice < 0 || choice > cakeService.findAll().length) {
+            choice = getNumber("This is not a valid ID." +
+                    "\nPlease pick an ID from your current product inventory");
+        }
+        confirm = getString("You are about to delete item of ID: " + choice + "." +
+                "\nAre you sure you would like to delete this item?" +
+                "\nEnter YES to delete or NO to exit");
+        while (choice != 0) {
+            confirm = yesNO(confirm);
+            if (confirm.equals("YES")) {
+                cakeService.delete(choice);
+                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
+            } else {
+                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
+            }
+        }
     }
 
     public static void get() {
 
     }
 
-    public static void exit() {
-
+    public static int exit() {
+        int exit = getNumber("This is not a valid input." +
+                "\nPlease pick a number from the menu above or enter 6 to exit.");
+        return exit;
     }
 
     public static Double cakePrice(String size) {

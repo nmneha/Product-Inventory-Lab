@@ -66,7 +66,7 @@ class CakeServiceTest {
 
         Cake[] expected = {saltedstacks, birthday_bash};
 
-        Assertions.assertArrayEquals(expected, service.findAll(inventory));
+        Assertions.assertArrayEquals(expected, service.findAll());
         service.delete(saltedstacks.getId());
         service.delete(birthday_bash.getId());
 

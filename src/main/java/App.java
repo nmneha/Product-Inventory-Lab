@@ -70,10 +70,13 @@ public class App {
             } else if (number == 5) {
 
             } else if (number > 6 || number < 1) {
+
                 getNumber("This is not a valid input." +
                         "\nPlease pick a number from the menu above or enter 6 to exit.");
             }
         }
+        System.out.println("THANK YOU FOR USING SERA 'N' DIPITY'S INVENTORY MANAGER" +
+                "\nSEE YOU NEXT TIME.");
     }
 
 }
