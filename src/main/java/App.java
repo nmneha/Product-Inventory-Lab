@@ -38,7 +38,7 @@ public class App {
             Console.printMainMenu();
             number = getNumber("Select from the menu above");
             if (number == 1) {
-                Console.create();
+                console.create();
                 int productType = getNumber("ENTER 1 OR 2");
                 if (productType == 1) {
                     console.createIceCream();
@@ -68,9 +68,13 @@ public class App {
                     console.deleteCake();
                 }
             } else if (number == 5) {
-
+                int choice = console.get();
+                if (choice == 1) {
+                    console.getIceCream();
+                } else {
+                    console.getCake();
+                }
             } else if (number > 6 || number < 1) {
-
                 getNumber("This is not a valid input." +
                         "\nPlease pick a number from the menu above or enter 6 to exit.");
             }

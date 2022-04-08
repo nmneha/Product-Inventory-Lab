@@ -82,26 +82,34 @@ public class Console {
         String brand = getString("Enter the brand");
         String flavor = getString("What flavor is it?");
         String size = getString("Enter a size.");
-        int qty = getNumber("How much inventory is there?");
-        double price = getDouble("What is the price?");
+        int qty = -1;
+        while (qty < 0) {
+            qty = getNumber("How much inventory is there?");
+        }
+        double price = -1.0;
+        while (price < 0.0) {
+            price = getDouble("What is the price?");
+        }
 
         iceCreamService.createIceCream(brand, flavor, size, qty, price);
     }
 
 
     public void createCake() {
+        String size = "";
         String flavor = getString("What flavor is the cake?");
-        String size = getString("What size cake is it?" +
-                "\n[12 IN ROUND]" +
-                "\n[6 IN ROUND]");
         while (!size.equals("12 IN ROUND") && !size.equals("6 IN ROUND")) {
-            System.out.println("This is not a valid input." +
-                    "Please enter a size from above.");
-            size = userInput.nextLine();
+            size = getString("What size cake is it?" +
+                    "\n[12 IN ROUND]" +
+                    "\n[6 IN ROUND]");
         }
-        int qty = getNumber("How much inventory is there?");
+        int qty = 0;
+        while (qty < 0) {
+            qty = getNumber("How much inventory is there?");
+        }
         double price = cakePrice(size);
         cakeService.create(flavor, size, qty, price);
+
     }
 
     public static void read() {
@@ -257,8 +265,67 @@ public class Console {
         }
     }
 
-    public static void get() {
+    public int get() {
+        System.out.println("Welcome to the Product Update Center." +
+                "\nSelect the inventory you would like to go into" +
+                "\n1. Ice Cream" +
+                "\n2. Cake");
+        int choice = getNumber("ENTER 1 OR 2");
+        while (choice <= 0 || choice > 2) {
+            choice = getNumber("This is not a valid input. Enter 1 or 2");
+        }
+        return choice;
+    }
 
+    public void getIceCream() {
+        String brand = "";
+        String flavor = "";
+        IceCream[] arr = iceCreamService.findAllIceCream();
+        List<IceCream> list = iceCreamService.getInventory();
+        System.out.println("List of all current items.");
+        for (int i = 0; i < arr.length; i ++) {
+            System.out.println("BRAND: " + arr[i].getBrand() +
+                    "\nFLAVOR: " + arr[i].getFlavor());
+        }
+        while (!brand.equals("exit")) {
+            brand = getString("Enter the brand of the item you want to look at" +
+                    "\nor enter 'exit' to leave the station.");
+            flavor = getString("Enter the flavor of the item.");
+            for (int i = 0; i < list.size(); i++) {
+                IceCream ic = list.get(i);
+                if (ic.getBrand().equals(brand) && ic.getFlavor().equals(flavor)) {
+                    System.out.println(iceCreamService.printIceCream(ic));
+                } else {
+                    System.out.println("That item does not exist.");
+                }
+            }
+        }
+    }
+
+    public void getCake() {
+        String brand = "";
+        String flavor = "";
+        Cake[] arr = cakeService.findAll();
+        List<Cake> list = cakeService.getInventory();
+        System.out.println("List of all current items.");
+        for (int i = 0; i < arr.length; i ++) {
+            System.out.println("BRAND: " + arr[i].getBrand() +
+                    "\nFLAVOR: " + arr[i].getFlavor());
+            System.out.println("\n-------------------------------");
+        }
+        while (!brand.equals("exit")) {
+            brand = getString("Enter the brand of the item you want to look at" +
+                    "\nor enter 'exit' to leave the station.");
+            flavor = getString("Enter the flavor of the item.");
+            for (int i = 0; i < list.size(); i++) {
+                Cake c = list.get(i);
+                if (c.getBrand().equals(brand) && c.getFlavor().equals(flavor)) {
+                    System.out.println(cakeService.printCake(c));
+                } else {
+                    System.out.println("That item does not exist.");
+                }
+            }
+        }
     }
 
     public static int exit() {
@@ -294,4 +361,7 @@ public class Console {
             }
         return confirm;
     }
+
+
+
 }
