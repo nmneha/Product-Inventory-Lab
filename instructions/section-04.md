@@ -12,7 +12,7 @@ At this point, the inventory manager can create, read, update, and delete produc
 
 ## Part 1 - Persistence
 
-At this moment the application can only save data in memory as it runs. If we stop the program or exit from the application, all of the inventory data is lost. This is not ideal because we may need to shut the program down from time to time. If there is ever a program crash the data will be lost as well. In order to save our data we will need to store it in a place that will persist over time. This is known as **persistent data** or **persistence**. There are many ways of achieving this, in this section we will use a Comma Separated Values(CSV) file to store data. CSV files are a common way to store and represent data. 
+At this moment the application can only save data in memory as it runs. If we stop the program or exit from the application, all of the inventory data is lost. This is not ideal because we may need to shut the program down from time to time. If there is ever a program crash the data will be lost as well. In order to save our data we will need to store it in a place that will persist over time. This is known as **persistent data** or **persistence**. There are many ways of achieving this, in this section we will use a Comma Separated Values(utils) file to store data. utils files are a common way to store and represent data. 
 
 ```
 1968,  86, "Greetings"
@@ -24,11 +24,11 @@ At this moment the application can only save data in memory as it runs. If we st
 1974,  97, "The Godfather, Part II"
 1976,  41, "The Last Tycoon"
 ```
-Above is a CSV of a few Robert Deniro movies with the year released and the Rotten Tomatoes score. As you can see the data is separated by commas.
+Above is a utils of a few Robert Deniro movies with the year released and the Rotten Tomatoes score. As you can see the data is separated by commas.
 
-CSV file are a nice way to store simple data, but as the data becomes more complicated so does the the CSV file. Because CSV file are plain text, it is easy to create and save them. However, because they are a simple text file it can be easy for anyone to open and edit these files. One must tread carefully, if the file is edited incorrectly it could lead to improper parsing of the data. CSV files are not easy to read and can be hard to edit sometimes so be mindful. 
+utils file are a nice way to store simple data, but as the data becomes more complicated so does the the utils file. Because utils file are plain text, it is easy to create and save them. However, because they are a simple text file it can be easy for anyone to open and edit these files. One must tread carefully, if the file is edited incorrectly it could lead to improper parsing of the data. utils files are not easy to read and can be hard to edit sometimes so be mindful. 
 
-CSV are a widely used format for saving data. This means that possibility to share this data with other programs is high. Many programs and programing languages have the ability to process CSV data.
+utils are a widely used format for saving data. This means that possibility to share this data with other programs is high. Many programs and programing languages have the ability to process utils data.
 
 **Pros**
 
@@ -43,9 +43,9 @@ CSV are a widely used format for saving data. This means that possibility to sha
 * Editing data can be tricky
 
 ## Part 2 - Writing to File
-We will first look at saving the data from the application to a CSV file. 
+We will first look at saving the data from the application to a utils file. 
 
-The data in the Sneaker CSV will be stored in this format:
+The data in the Sneaker utils will be stored in this format:
 
 ```
 4
@@ -89,11 +89,11 @@ public class CSVUtils {
 ```
 
 1. Create a final variable to hold the comma seperator since we do not need this value to change
-2. To make this method reusable we will pass an Writer object representing the file to write to. The next parameter is a list of String objects that will represent the data of the object to write to CSV format. Now, wherever we want to write some values to CSV we can call this method and pass the values to the file and the data as a List
-3. Now use a StringBuilder to create the CSV string
-4. Finally appent the string to the CSV file
+2. To make this method reusable we will pass an Writer object representing the file to write to. The next parameter is a list of String objects that will represent the data of the object to write to utils format. Now, wherever we want to write some values to utils we can call this method and pass the values to the file and the data as a List
+3. Now use a StringBuilder to create the utils string
+4. Finally appent the string to the utils file
 
-Now we have a utility class to help with saving objects to a CSV file whenever we need it. Next, we look at the implementation of the CSVUtility within the service
+Now we have a utility class to help with saving objects to a utils file whenever we need it. Next, we look at the implementation of the CSVUtility within the service
 
 ```
 String csvFile = "/Users/batman/Desktop/Sneaker.csv";
@@ -125,7 +125,7 @@ writer.close();
 
 ## Part 3 - Reading from File
 
-Now that the application can write data to a CSV file. It would be nice to read that data in when the application loads.
+Now that the application can write data to a utils file. It would be nice to read that data in when the application loads.
 
 **SneakerService.java**
 
@@ -164,11 +164,11 @@ private void loadData(){
 1. Set up some values to be used later
 2. We use a *try with resources* block to create a new BufferedReader and catch any exceptions that can occur. If there are problems retrieving the file, the catch block with handle exception
 3. Begin setting the state of the service by reading in the first line. If you remember the first line represents the nextId value.
-4. For every line read in from the CSV file, the program with split the string values by a ','. Then parsed into the proper data type if necessary.
-5. Finally create a new item using the CSV data to set the initial state and add it to the inventory.
+4. For every line read in from the utils file, the program with split the string values by a ','. Then parsed into the proper data type if necessary.
+5. Finally create a new item using the utils data to set the initial state and add it to the inventory.
 
 ## Conclusion
 
-In this section we identified the need to be able to persist our data in order to have save meaningful data over time. We used a utility class to help write and save the data to a CSV file. Because Comma Seperated Values are a common data format we have the ability to use this file in a number of different ways. This file a can later be imported back into the program as we did earlier, or even used by other programs and systems if needed.
+In this section we identified the need to be able to persist our data in order to have save meaningful data over time. We used a utility class to help write and save the data to a utils file. Because Comma Seperated Values are a common data format we have the ability to use this file in a number of different ways. This file a can later be imported back into the program as we did earlier, or even used by other programs and systems if needed.
 
-This is pretty cool stuff we are embarking on. But can it get better? I think so! CSV files are great but have a few draw backs. One of these draw backs is readability, and being able to directly edit and understand larger sets of data. This is were CSV as some limitations, we are going to look an alternative that helps remedy this.
+This is pretty cool stuff we are embarking on. But can it get better? I think so! utils files are great but have a few draw backs. One of these draw backs is readability, and being able to directly edit and understand larger sets of data. This is were utils as some limitations, we are going to look an alternative that helps remedy this.

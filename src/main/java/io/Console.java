@@ -4,15 +4,12 @@ import Models.Cake;
 import Models.IceCream;
 import Services.CakeService;
 import Services.IceCreamService;
-
-
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Console {
-    private static Scanner userInput = new Scanner(System.in);
+    private static final Scanner userInput = new Scanner(System.in);
     static IceCreamService iceCreamService = IceCreamService.shared();
     static CakeService cakeService = CakeService.shared();
 
@@ -22,7 +19,7 @@ public class Console {
             try {
                 return userInput.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("\"" + userInput.next() + "\" isn't a number!");
+                System.out.print("\"" + userInput.nextLine() + "\" isn't a number!");
             }
         }
     }
@@ -30,14 +27,9 @@ public class Console {
 
     //this may not work TODO - make sure you add a condition to catch invalid strings
     public static String getString(String message) {
-        while (true) {
-            System.out.println(message);
-            try {
-                return userInput.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("\"" + userInput.next() + "\" isn't a valid input!");
-            }
-        }
+        System.out.println(message);
+        return userInput.nextLine();
+
     }
 
     public static double getDouble(String message) {
@@ -71,14 +63,22 @@ public class Console {
                 "\n6. EXIT");
     }
 
-    public static void create() {
-        System.out.println("Welcome to Product Create Center"+
-                "\nSelect new product type: " +
+    public static void printProdChoice() {
+        System.out.println("Select the product you would like to edit: " +
                 "\n1. Ice Cream" +
                 "\n2. Cake");
     }
 
+    public static int create() {
+        System.out.print("Welcome to Product Create Center"+
+                "\nSelect new product type: " +
+                "\n1. Ice Cream" +
+                "\n2. Cake");
+        return getNumber("\nENTER 1 OR 2");
+    }
+
     public void createIceCream() {
+        userInput.nextLine();
         String brand = getString("Enter the brand");
         String flavor = getString("What flavor is it?");
         String size = getString("Enter a size.");
@@ -90,41 +90,47 @@ public class Console {
         while (price < 0.0) {
             price = getDouble("What is the price?");
         }
-
+//        iceCreamService.createIceCream(getString("Enter the brand"),
+//                getString("What flavor is it?"),
+//                getString("Enter a size."),
+//                getNumber("How much inventory is there?"),
+//                getDouble("What is the price?"));
         iceCreamService.createIceCream(brand, flavor, size, qty, price);
+
     }
 
 
     public void createCake() {
-        String size = "";
+        userInput.nextLine();
         String flavor = getString("What flavor is the cake?");
-        while (!size.equals("12 IN ROUND") && !size.equals("6 IN ROUND")) {
-            size = getString("What size cake is it?" +
-                    "\n[12 IN ROUND]" +
-                    "\n[6 IN ROUND]");
-        }
-        int qty = 0;
-        while (qty < 0) {
-            qty = getNumber("How much inventory is there?");
-        }
+        String size = getString("Select from one of the options below:" +
+                "\n[12 IN ROUND]" +
+                "\n[6 IN ROUND]");
+//        while (!size.equals("12 IN ROUND") && !size.equals("6 IN ROUND")) {
+//            size = getString("Select from one of the options below:" +
+//                    "\n[12 IN ROUND]" +
+//                    "\n[6 IN ROUND]");
+//        }
+        int qty = getNumber("How much inventory is there?");
         double price = cakePrice(size);
+
         cakeService.create(flavor, size, qty, price);
 
     }
 
-    public static void read() {
+    public static int read() {
         System.out.println("Welcome to Inventory Reader" +
                 "\nWhich inventory would you like to look at?:" +
                 "\n1. Ice Cream" +
                 "\n2. Cake");
+        return getNumber("ENTER 1 OR 2");
     }
 
     public void readIceCream() {
         System.out.println("\n-------------------------------\n");
         IceCream[] array = iceCreamService.findAllIceCream();
         if (array.length != 0) {
-            for (int i = 0; i < array.length; i++) {
-                IceCream ic = array[i];
+            for (IceCream ic : array) {
                 System.out.println(iceCreamService.printIceCream(ic));
             }
         } else {
@@ -136,8 +142,7 @@ public class Console {
         System.out.println("\n-------------------------------\n");
         Cake[] array = cakeService.findAll();
         if (array.length != 0) {
-            for (int i = 0; i < array.length; i++) {
-                Cake c = array[i];
+            for (Cake c : array) {
                 System.out.println(cakeService.printCake(c));
             }
         } else {
@@ -223,7 +228,7 @@ public class Console {
 
     public void deleteIceCream() {
         currentInventory("Ice Cream");
-        String confirm = "NO";
+        String confirm;
         int choice = getNumber("Enter the ID of the item you want to delete " + 0 + " to exit");
         while (choice < 0 || choice > iceCreamService.findAllIceCream().length) {
             choice = getNumber("This is not a valid ID." +
@@ -236,16 +241,14 @@ public class Console {
             confirm = yesNO(confirm);
             if (confirm.equals("YES")) {
                 iceCreamService.deleteIceCream(choice);
-                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
-            } else {
-                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
             }
+            choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
         }
     }
 
     public void deleteCake() {
         currentInventory("Cake");
-        String confirm = "NO";
+        String confirm;
         int choice = getNumber("Enter the ID of the item you want to delete " + 0 + " to exit");
         while (choice < 0 || choice > cakeService.findAll().length) {
             choice = getNumber("This is not a valid ID." +
@@ -258,10 +261,8 @@ public class Console {
             confirm = yesNO(confirm);
             if (confirm.equals("YES")) {
                 cakeService.delete(choice);
-                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
-            } else {
-                choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
             }
+            choice = getNumber("Enter 0 to exit or enter a different ID number to delete.");
         }
     }
 
@@ -279,20 +280,19 @@ public class Console {
 
     public void getIceCream() {
         String brand = "";
-        String flavor = "";
+        String flavor;
         IceCream[] arr = iceCreamService.findAllIceCream();
         List<IceCream> list = iceCreamService.getInventory();
         System.out.println("List of all current items.");
-        for (int i = 0; i < arr.length; i ++) {
-            System.out.println("BRAND: " + arr[i].getBrand() +
-                    "\nFLAVOR: " + arr[i].getFlavor());
+        for (IceCream iceCream : arr) {
+            System.out.println("BRAND: " + iceCream.getBrand() +
+                    "\nFLAVOR: " + iceCream.getFlavor());
         }
         while (!brand.equals("exit")) {
             brand = getString("Enter the brand of the item you want to look at" +
                     "\nor enter 'exit' to leave the station.");
             flavor = getString("Enter the flavor of the item.");
-            for (int i = 0; i < list.size(); i++) {
-                IceCream ic = list.get(i);
+            for (IceCream ic : list) {
                 if (ic.getBrand().equals(brand) && ic.getFlavor().equals(flavor)) {
                     System.out.println(iceCreamService.printIceCream(ic));
                 } else {
@@ -304,21 +304,20 @@ public class Console {
 
     public void getCake() {
         String brand = "";
-        String flavor = "";
+        String flavor;
         Cake[] arr = cakeService.findAll();
         List<Cake> list = cakeService.getInventory();
         System.out.println("List of all current items.");
-        for (int i = 0; i < arr.length; i ++) {
-            System.out.println("BRAND: " + arr[i].getBrand() +
-                    "\nFLAVOR: " + arr[i].getFlavor());
+        for (Cake cake : arr) {
+            System.out.println("BRAND: " + cake.getBrand() +
+                    "\nFLAVOR: " + cake.getFlavor());
             System.out.println("\n-------------------------------");
         }
         while (!brand.equals("exit")) {
             brand = getString("Enter the brand of the item you want to look at" +
                     "\nor enter 'exit' to leave the station.");
             flavor = getString("Enter the flavor of the item.");
-            for (int i = 0; i < list.size(); i++) {
-                Cake c = list.get(i);
+            for (Cake c : list) {
                 if (c.getBrand().equals(brand) && c.getFlavor().equals(flavor)) {
                     System.out.println(cakeService.printCake(c));
                 } else {
@@ -326,12 +325,6 @@ public class Console {
                 }
             }
         }
-    }
-
-    public static int exit() {
-        int exit = getNumber("This is not a valid input." +
-                "\nPlease pick a number from the menu above or enter 6 to exit.");
-        return exit;
     }
 
     public static Double cakePrice(String size) {

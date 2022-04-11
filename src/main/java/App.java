@@ -4,6 +4,7 @@ import Services.CakeService;
 import Services.IceCreamService;
 import io.Console;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -25,31 +26,31 @@ public class App {
         }
     }
 
-    public static void main(String... args){
+    public static void main(String... args) throws IOException {
         App application = new App();
         application.init();
 
     }
 
-    private void init() {
+    private void init() throws IOException {
+        iceCreamService.loadData();
+        cakeService.loadData();
         Console.printWelcome();
         int number = 0;
-        while (number != 6 ) {
+        while (number != 6) {
             Console.printMainMenu();
             number = getNumber("Select from the menu above");
             if (number == 1) {
-                console.create();
-                int productType = getNumber("ENTER 1 OR 2");
+                int productType = console.create();
                 if (productType == 1) {
                     console.createIceCream();
                 } else if (productType == 2) {
                     console.createCake();
                 }
             } else if (number == 2) {
-                Console.read();
-                int inventoryNum = getNumber("ENTER 1 OR 2");
+                int inventoryNum = Console.read();
                 if (inventoryNum == 1) {
-                   console.readIceCream();
+                    console.readIceCream();
                 } else if (inventoryNum == 2) {
                     console.readCake();
                 }
@@ -79,10 +80,61 @@ public class App {
                         "\nPlease pick a number from the menu above or enter 6 to exit.");
             }
         }
+        iceCreamService.writeTo();
+        cakeService.writeTo();
         System.out.println("THANK YOU FOR USING SERA 'N' DIPITY'S INVENTORY MANAGER" +
                 "\nSEE YOU NEXT TIME.");
     }
 
+
+    private void switchTest() throws IOException {
+//        iceCreamService.loadData();
+//        cakeService.loadData();
+        Console.printWelcome();
+        int number = 0;
+        while (number != 6) {
+            Console.printProdChoice();
+            number = getNumber("Select from the menu above");
+            switch (number) {
+                case 1:
+                    Console.printMainMenu();
+                    int edit = getNumber("Select from the menu above.");
+                    switch (edit) {
+                        case 1:
+                            console.createIceCream();
+                        case 2:
+                            console.readIceCream();
+                        case 3:
+                            console.updateIceCream();
+                        case 4:
+                            console.deleteIceCream();
+                        case 5:
+                            console.getIceCream();
+                        case 6:
+                            break;
+                    }
+                case 2:
+                    Console.printMainMenu();
+                    edit = getNumber("Select from the menu above.");
+                    switch (edit) {
+                        case 1:
+                            console.createIceCream();
+                        case 2:
+                            console.readIceCream();
+                        case 3:
+                            console.updateIceCream();
+                        case 4:
+                            console.deleteIceCream();
+                        case 5:
+                            console.getIceCream();
+                        case 6:
+                            break;
+                    }
+            }
+        }
+        System.out.println("THANK YOU FOR USING SERA 'N' DIPITY'S INVENTORY MANAGER" +
+                "\nSEE YOU NEXT TIME.");
+    }
 }
 
 

@@ -2,7 +2,12 @@ package Services;
 
 import Models.Cake;
 import Models.IceCream;
+import utils.CVSUtils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +90,59 @@ public class IceCreamService {
 
     public List<IceCream> getInventory() {
         return inventory;
+    }
+
+    public void writeTo() throws IOException {
+        String csvFile = "/Users/nusera/Development/Product-Inventory-Lab/src/main/java/Services/IceCream.csv";
+        FileWriter writer = new FileWriter(csvFile); //(1)
+
+        CVSUtils.writeLine(writer, new ArrayList<>(Arrays.asList(String.valueOf(nextId))));  // (2)
+
+        for (IceCream ic : inventory) {
+            List<String> list = new ArrayList<>(); // (3)
+            list.add(String.valueOf(ic.getId()));
+            list.add(ic.getBrand());
+            list.add(ic.getFlavor());
+            list.add(ic.getSize());
+            list.add(String.valueOf(ic.getQty()));
+            list.add(String.valueOf(ic.getPrice()));
+
+            CVSUtils.writeLine(writer, list);  // (4)
+        }
+
+// (5)
+        writer.flush();
+        writer.close();
+    }
+
+    public void loadData(){
+        // (1)
+        String csvFile = "/Users/nusera/Development/Product-Inventory-Lab/src/main/java/Services/IceCream.csv";
+        String line = "";
+        String csvSplitBy = ",";
+
+        // (2)
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            nextId = Integer.parseInt(br.readLine());  // (3)
+
+            while ((line = br.readLine()) != null) {
+                // split line with comma
+                String[] beer = line.split(csvSplitBy);
+
+                // (4)
+                int id = Integer.parseInt(beer[0]);
+                String brand = beer[1];
+                String flavor = beer[2];
+                String size = beer[3];
+                int qty = Integer.parseInt(beer[4]);
+                double price = Double.parseDouble(beer[5]);
+
+                // (5)
+                inventory.add(new IceCream(id, brand, flavor, size, qty, price));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
