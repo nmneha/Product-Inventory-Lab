@@ -53,7 +53,7 @@ public class Console {
                 "\n**************************************************");
     }
 
-    public static void printMainMenu() {
+    public static int printMainMenu() {
         System.out.println("MAIN MENU: " +
                 "\n1. CREATE NEW PRODUCT" +
                 "\n2. READ PRODUCTS" +
@@ -61,6 +61,7 @@ public class Console {
                 "\n4. DELETE PRODUCTS" +
                 "\n5. GET REPORT" +
                 "\n6. EXIT");
+        return getNumber("Select from the menu above");
     }
 
     public static void printProdChoice() {
@@ -90,11 +91,6 @@ public class Console {
         while (price < 0.0) {
             price = getDouble("What is the price?");
         }
-//        iceCreamService.createIceCream(getString("Enter the brand"),
-//                getString("What flavor is it?"),
-//                getString("Enter a size."),
-//                getNumber("How much inventory is there?"),
-//                getDouble("What is the price?"));
         iceCreamService.createIceCream(brand, flavor, size, qty, price);
 
     }
@@ -103,17 +99,14 @@ public class Console {
     public void createCake() {
         userInput.nextLine();
         String flavor = getString("What flavor is the cake?");
-        String size = getString("Select from one of the options below:" +
-                "\n[12 IN ROUND]" +
-                "\n[6 IN ROUND]");
-//        while (!size.equals("12 IN ROUND") && !size.equals("6 IN ROUND")) {
-//            size = getString("Select from one of the options below:" +
-//                    "\n[12 IN ROUND]" +
-//                    "\n[6 IN ROUND]");
-//        }
+        String size = "";
+        while (!size.equals("12 IN ROUND") && !size.equals("6 IN ROUND")) {
+            size = getString("Select from one of the options below:" +
+                    "\n[12 IN ROUND]" +
+                    "\n[6 IN ROUND]");
+        }
         int qty = getNumber("How much inventory is there?");
         double price = cakePrice(size);
-
         cakeService.create(flavor, size, qty, price);
 
     }
@@ -355,6 +348,13 @@ public class Console {
         return confirm;
     }
 
+    public static int invalidInput() {
+        return getNumber("This is not a valid input." +
+                "\nPlease pick a number from the menu above or enter 6 to exit.");
+    }
 
+    public static void exit() {
+        userInput.close();
+    }
 
 }
